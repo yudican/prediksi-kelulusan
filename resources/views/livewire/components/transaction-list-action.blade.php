@@ -1,0 +1,1 @@
+<button class="btn btn-success btn-sm" wire:click="showModal('{{$id}}')">Edit</button>
