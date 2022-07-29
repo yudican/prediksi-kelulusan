@@ -12,9 +12,10 @@ class DataSetController extends Component
 
     public $tbl_data_sets_id;
     public $angkatan;
-    public $jenjang;
     public $nama_prodi;
-    public $type_kelas;
+    public $tgl_masuk;
+    public $tgl_yudisium;
+    public $lama_kuliah;
     public $status;
     public $ipk;
     public $sks;
@@ -38,6 +39,10 @@ class DataSetController extends Component
 
     public function render()
     {
+        if ($this->tgl_masuk && $this->tgl_yudisium) {
+            $lama_kuliah = $this->year_diff($this->tgl_masuk, $this->tgl_yudisium);
+            $this->lama_kuliah = $lama_kuliah;
+        }
         return view('livewire.master.tbl-data-sets', [
             'items' => DataSet::all(),
             'data_prodi' => DataProdi::all()
@@ -50,9 +55,10 @@ class DataSetController extends Component
 
         $data = [
             'angkatan'  => $this->angkatan,
-            'jenjang'  => $this->jenjang,
+            'tgl_masuk'  => $this->tgl_masuk,
+            'tgl_yudisium'  => $this->tgl_yudisium,
+            'lama_kuliah'  => $this->lama_kuliah,
             'nama_prodi'  => $this->nama_prodi,
-            'type_kelas'  => $this->type_kelas,
             'status'  => $this->status,
             'ipk'  => $this->ipk,
             'sks'  => $this->sks,
@@ -71,9 +77,10 @@ class DataSetController extends Component
 
         $data = [
             'angkatan'  => $this->angkatan,
-            'jenjang'  => $this->jenjang,
+            'tgl_masuk'  => $this->tgl_masuk,
+            'tgl_yudisium'  => $this->tgl_yudisium,
+            'lama_kuliah'  => $this->lama_kuliah,
             'nama_prodi'  => $this->nama_prodi,
-            'type_kelas'  => $this->type_kelas,
             'status'  => $this->status,
             'ipk'  => $this->ipk,
             'sks'  => $this->sks,
@@ -101,9 +108,8 @@ class DataSetController extends Component
     {
         $rule = [
             'angkatan'  => 'required',
-            'jenjang'  => 'required',
+            'tgl_masuk'  => 'required',
             'nama_prodi'  => 'required',
-            'type_kelas'  => 'required',
             'status'  => 'required',
             'ipk'  => 'required',
             'sks'  => 'required',
@@ -119,9 +125,10 @@ class DataSetController extends Component
         $row = DataSet::find($tbl_data_sets_id);
         $this->tbl_data_sets_id = $row->id;
         $this->angkatan = $row->angkatan;
-        $this->jenjang = $row->jenjang;
+        $this->tgl_masuk = date('Y-m-d', strtotime($row->tgl_masuk));
+        $this->tgl_yudisium = date('Y-m-d', strtotime($row->tgl_yudisium));
+        $this->lama_kuliah = $row->lama_kuliah;
         $this->nama_prodi = $row->nama_prodi;
-        $this->type_kelas = $row->type_kelas;
         $this->status = $row->status;
         $this->ipk = $row->ipk;
         $this->sks = $row->sks;
@@ -161,9 +168,10 @@ class DataSetController extends Component
         $this->emit('refreshTable');
         $this->tbl_data_sets_id = null;
         $this->angkatan = null;
-        $this->jenjang = null;
+        $this->tgl_masuk = null;
+        $this->tgl_yudisium = null;
+        $this->lama_kuliah = null;
         $this->nama_prodi = null;
-        $this->type_kelas = null;
         $this->status = null;
         $this->ipk = null;
         $this->sks = null;
@@ -172,5 +180,13 @@ class DataSetController extends Component
         $this->form_active = false;
         $this->update_mode = false;
         $this->modal = false;
+    }
+
+
+    // calculate year difference between two dates
+    public function year_diff($date1, $date2)
+    {
+        $diff = abs(strtotime($date2) - strtotime($date1));
+        return floor($diff / (365 * 60 * 60 * 24));
     }
 }

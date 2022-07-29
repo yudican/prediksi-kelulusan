@@ -25,14 +25,15 @@ class DataSetTable extends LivewireDatatable
         $this->hide = HideableColumn::where(['table_name' => $this->table_name, 'user_id' => auth()->user()->id])->pluck('column_name')->toArray();
         return [
             Column::name('id')->label('No.'),
-Column::name('angkatan')->label('Angkatan')->searchable(),
-Column::name('jenjang')->label('Jenjang')->searchable(),
-Column::name('nama_prodi')->label('Nama Prodi')->searchable(),
-Column::name('type_kelas')->label('Type Kelas')->searchable(),
-Column::name('status')->label('Status')->searchable(),
-Column::name('ipk')->label('Ipk')->searchable(),
-Column::name('sks')->label('Sks')->searchable(),
-Column::name('target')->label('Target')->searchable(),
+            Column::name('angkatan')->label('Angkatan')->searchable(),
+            Column::name('nama_prodi')->label('Nama Prodi')->searchable(),
+            Column::name('tgl_masuk')->label('Tanggal Masuk')->searchable(),
+            Column::name('tgl_yudisium')->label('Tanggal Yudisium')->searchable(),
+            Column::name('lama_kuliah')->label('Lama Kuliah')->searchable(),
+            Column::name('status')->label('Status')->searchable(),
+            Column::name('ipk')->label('Ipk')->searchable(),
+            Column::name('sks')->label('Sks')->searchable(),
+            Column::name('target')->label('Target')->searchable(),
 
             Column::callback(['id'], function ($id) {
                 return view('livewire.components.action-button', [

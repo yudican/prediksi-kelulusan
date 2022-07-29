@@ -13,7 +13,7 @@ class DataSet extends Model
 
     //public $incrementing = false;
 
-    protected $fillable = ['angkatan','jenjang','nama_prodi','type_kelas','status','ipk','sks','target'];
-    
+    protected $fillable = ['angkatan', 'tgl_masuk', 'tgl_yudisium', 'nama_prodi', 'lama_kuliah', 'status', 'ipk', 'sks', 'target'];
+
     protected $dates = [];
 }

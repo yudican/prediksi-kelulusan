@@ -16,9 +16,10 @@ class CreateDataSetsTable extends Migration
         Schema::create('data_sets', function (Blueprint $table) {
             $table->id();
             $table->integer('angkatan');
-            $table->string('jenjang');
+            $table->date('tgl_masuk');
+            $table->date('tgl_yudisium')->nullable();
             $table->string('nama_prodi');
-            $table->string('type_kelas');
+            $table->string('lama_kuliah');
             $table->string('status');
             $table->string('ipk');
             $table->integer('sks');
