@@ -50,7 +50,9 @@
                     <x-text-field type="text" name="lama_kuliah" label="Lama Kuliah" readonly />
                     <x-select name="target" label="Target">
                         <option value="">Select Target</option>
-                        <option value="Tepat Waktu">Tepat Waktu</option>
+                        <option value="Lulus Tepat Waktu">Lulus Tepat Waktu</option>
+                        <option value="Lulus Lebih Cepat">Lulus Lebih Cepat</option>
+                        <option value="Lulus Terlambat">Lulus Terlambat</option>
                         <option value="Terlambat">Terlambat</option>
                     </x-select>
 
