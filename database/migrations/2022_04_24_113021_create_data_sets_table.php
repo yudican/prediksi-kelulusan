@@ -18,8 +18,8 @@ class CreateDataSetsTable extends Migration
             $table->integer('angkatan');
             $table->date('tgl_masuk');
             $table->date('tgl_yudisium')->nullable();
-            $table->string('nama_prodi');
             $table->string('lama_kuliah');
+            $table->string('nama_prodi');
             $table->string('status');
             $table->string('ipk');
             $table->integer('sks');

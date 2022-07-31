@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Exports\HasilperhitunganExport;
 use App\Http\Controllers\NaiveBayes;
+use App\Http\Controllers\NaiveBayesClasifier;
 use App\Models\DataMahasiswa;
 use App\Models\DataProdi;
 use App\Models\DataSet;
@@ -20,7 +21,7 @@ class HasilPerhitungan extends Component
         $samples = [];
         $datas = [];
         $members = [];
-        $labels = ['Angkatan', 'Jenjang', 'Prodi', 'Type Kelas', 'Status', 'IPK', 'SKS'];
+        $labels = ['Angkatan', 'Tanggal Masuk', 'Tanggal Yudisium', 'Lama Kuliah', 'Prodi', 'Status', 'IPK', 'SKS'];
         $newLable = [];
         $newSample = [];
         $data_mahasiswa = DataMahasiswa::all();
@@ -41,9 +42,10 @@ class HasilPerhitungan extends Component
             $newLable[] = $set->target;
             $samples[] = [
                 $set->angkatan,
-                $set->jenjang,
+                $set->tgl_masuk,
+                $set->tgl_yudisium,
+                $set->lama_kuliah,
                 $set->nama_prodi,
-                $set->type_kelas,
                 $set->status,
                 $set->ipk,
                 $set->sks,
@@ -52,25 +54,28 @@ class HasilPerhitungan extends Component
 
             $newSample[] = [
                 $set->angkatan,
-                $set->jenjang,
+                $set->tgl_masuk,
+                $set->tgl_yudisium,
+                intval($set->lama_kuliah),
                 $set->nama_prodi,
-                $set->type_kelas,
                 $set->status,
-                $set->ipk,
+                floatval($set->ipk),
                 $set->sks,
             ];
         }
-
+        // dd($newSample);
         $classifier = new NaiveBayes($samples, $labels);
-        $clasification = new ClassificationNaiveBayes();
+        $clasification = new NaiveBayesClasifier();
         $clasification->train($newSample, $newLable);
+
         $total = [];
         foreach ($data_mahasiswa as $key => $value) {
             $result = $clasification->predict([
                 $value->angkatan,
-                $value->jenjang,
+                $value->tgl_masuk,
+                $value->tgl_yudisium,
+                $value->lama_kuliah,
                 $value->dataProdi->nama_prodi,
-                $value->type_kelas,
                 $value->status,
                 $value->ipk,
                 $value->sks,
@@ -82,18 +87,20 @@ class HasilPerhitungan extends Component
                 ],
                 'user' => [
                     $value->angkatan,
-                    $value->jenjang,
+                    $value->tgl_masuk,
+                    $value->tgl_yudisium,
+                    $value->lama_kuliah,
                     $value->dataProdi->nama_prodi,
-                    $value->type_kelas,
                     $value->status,
                     $value->ipk,
                     $value->sks,
                 ],
                 'perhitungan' => $classifier->run()->predict([
                     $value->angkatan,
-                    $value->jenjang,
+                    $value->tgl_masuk,
+                    $value->tgl_yudisium,
+                    $value->lama_kuliah,
                     $value->dataProdi->nama_prodi,
-                    $value->type_kelas,
                     $value->status,
                     $value->ipk,
                     $value->sks,

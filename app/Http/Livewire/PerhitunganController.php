@@ -25,7 +25,7 @@ class PerhitunganController extends Component
     {
         $samples = [];
         $members = [];
-        $labels = ['Angkatan', 'Jenjang', 'Prodi', 'Type Kelas', 'Status', 'IPK', 'SKS'];
+        $labels = ['Angkatan', 'Tanggal Masuk', 'Tanggal Yudisium', 'Lama Kuliah', 'Prodi', 'Status', 'IPK', 'SKS'];
         $newLable = [];
         $newSample = [];
         $data_mahasiswa = DataMahasiswa::all();
@@ -45,9 +45,10 @@ class PerhitunganController extends Component
             $newLable[] = $set->target;
             $samples[] = [
                 $set->angkatan,
-                $set->jenjang,
+                $set->tgl_masuk,
+                $set->tgl_yudisium,
+                $set->lama_kuliah,
                 $set->nama_prodi,
-                $set->type_kelas,
                 $set->status,
                 $set->ipk,
                 $set->sks,
@@ -56,9 +57,10 @@ class PerhitunganController extends Component
 
             $newSample[] = [
                 $set->angkatan,
-                $set->jenjang,
+                $set->tgl_masuk,
+                $set->tgl_yudisium,
+                $set->lama_kuliah,
                 $set->nama_prodi,
-                $set->type_kelas,
                 $set->status,
                 $set->ipk,
                 $set->sks,
@@ -74,27 +76,30 @@ class PerhitunganController extends Component
                     // $value->nim,
                     // $value->nama,
                     $value->angkatan,
-                    $value->jenjang,
+                    $value->tgl_masuk,
+                    $value->tgl_yudisium,
+                    $value->lama_kuliah,
                     $value->dataProdi->nama_prodi,
-                    $value->type_kelas,
                     $value->status,
                     $value->ipk,
                     $value->sks,
                 ],
                 'perhitungan' => $classifier->run()->predict([
                     $value->angkatan,
-                    $value->jenjang,
+                    $value->tgl_masuk,
+                    $value->tgl_yudisium,
+                    $value->lama_kuliah,
                     $value->dataProdi->nama_prodi,
-                    $value->type_kelas,
                     $value->status,
                     $value->ipk,
                     $value->sks,
                 ]),
                 'result' => $clasification->predict([
                     $value->angkatan,
-                    $value->jenjang,
+                    $value->tgl_masuk,
+                    $value->tgl_yudisium,
+                    $value->lama_kuliah,
                     $value->dataProdi->nama_prodi,
-                    $value->type_kelas,
                     $value->status,
                     $value->ipk,
                     $value->sks,

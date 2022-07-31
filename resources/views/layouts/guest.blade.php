@@ -41,7 +41,7 @@
 <body class="login">
     <div class="wrapper wrapper-login wrapper-login-full p-0">
         <div class="login-aside w-50 d-flex flex-column align-items-center justify-content-center text-center bg-primary">
-            <img src="https://i.ibb.co/J2tbkbh/Whats-App-Image-2022-07-03-at-09-46-37.jpg" style="height: 250px;" alt="">
+            <img src="https://i.ibb.co/WHr72FW/Whats-App-Image-2022-07-30-at-15-27-51-removebg-preview.png" style="height: 250px;" alt="">
         </div>
         <div class="login-aside w-50 d-flex align-items-center justify-content-center bg-white">
             {{$slot}}

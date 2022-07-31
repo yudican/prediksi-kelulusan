@@ -17,9 +17,10 @@ class DataMahasiswaController extends Component
     public $nama;
     public $nim;
     public $angkatan;
-    public $jenjang;
+    public $tgl_masuk;
+    public $tgl_yudisium;
+    public $lama_kuliah = 0;
     public $data_prodi_id;
-    public $type_kelas;
     public $jenis_kelamin;
     public $agama;
     public $status;
@@ -48,6 +49,10 @@ class DataMahasiswaController extends Component
 
     public function render()
     {
+        if ($this->tgl_masuk && $this->tgl_yudisium) {
+            $lama_kuliah = $this->year_diff($this->tgl_masuk, $this->tgl_yudisium);
+            $this->lama_kuliah = $lama_kuliah;
+        }
         return view('livewire.master.tbl-data-mahasiswa', [
             'items' => DataMahasiswa::all(),
             'data_prodi' => DataProdi::all()
@@ -62,9 +67,10 @@ class DataMahasiswaController extends Component
             'nama'  => $this->nama,
             'nim'  => $this->nim,
             'angkatan'  => $this->angkatan,
-            'jenjang'  => $this->jenjang,
+            'tgl_masuk'  => $this->tgl_masuk,
+            'tgl_yudisium'  => $this->tgl_yudisium,
+            'lama_kuliah'  => $this->lama_kuliah,
             'data_prodi_id'  => $this->data_prodi_id,
-            'type_kelas'  => $this->type_kelas,
             'jenis_kelamin'  => $this->jenis_kelamin,
             'agama'  => $this->agama,
             'status'  => $this->status,
@@ -87,9 +93,10 @@ class DataMahasiswaController extends Component
             'nama'  => $this->nama,
             'nim'  => $this->nim,
             'angkatan'  => $this->angkatan,
-            'jenjang'  => $this->jenjang,
+            'tgl_masuk'  => $this->tgl_masuk,
+            'tgl_yudisium'  => $this->tgl_yudisium,
+            'lama_kuliah'  => $this->lama_kuliah,
             'data_prodi_id'  => $this->data_prodi_id,
-            'type_kelas'  => $this->type_kelas,
             'jenis_kelamin'  => $this->jenis_kelamin,
             'agama'  => $this->agama,
             'status'  => $this->status,
@@ -121,9 +128,8 @@ class DataMahasiswaController extends Component
             'nama'  => 'required',
             'nim'  => 'required',
             'angkatan'  => 'required',
-            'jenjang'  => 'required',
+            'tgl_masuk'  => 'required',
             'data_prodi_id'  => 'required',
-            'type_kelas'  => 'required',
             'jenis_kelamin'  => 'required',
             'agama'  => 'required',
             'status'  => 'required',
@@ -143,9 +149,10 @@ class DataMahasiswaController extends Component
         $this->nama = $row->nama;
         $this->nim = $row->nim;
         $this->angkatan = $row->angkatan;
-        $this->jenjang = $row->jenjang;
+        $this->tgl_masuk = date('Y-m-d', strtotime($row->tgl_masuk));
+        $this->tgl_yudisium = date('Y-m-d', strtotime($row->tgl_yudisium));
+        $this->lama_kuliah = $row->lama_kuliah;
         $this->data_prodi_id = $row->data_prodi_id;
-        $this->type_kelas = $row->type_kelas;
         $this->jenis_kelamin = $row->jenis_kelamin;
         $this->agama = $row->agama;
         $this->status = $row->status;
@@ -209,9 +216,10 @@ class DataMahasiswaController extends Component
         $this->nama = null;
         $this->nim = null;
         $this->angkatan = null;
-        $this->jenjang = null;
+        $this->tgl_masuk = null;
+        $this->tgl_yudisium = null;
+        $this->lama_kuliah = 0;
         $this->data_prodi_id = null;
-        $this->type_kelas = null;
         $this->jenis_kelamin = null;
         $this->agama = null;
         $this->status = null;

@@ -32,21 +32,16 @@
                         @for ($i = 2015; $i <= 2022; $i++) <option value="{{$i}}">{{$i}}</option>
                             @endfor
                     </x-select>
-                    <x-select name="jenjang" label="Jenjang">
-                        <option value="">Select Jenjang</option>
-                        <option value="S1">S1</option>
-                    </x-select>
+
                     <x-select name="data_prodi_id" label="Prodi">
                         <option value="">Select Prodi</option>
                         @foreach ($data_prodi as $prodi)
                         <option value="{{$prodi->id}}">{{$prodi->nama_prodi}}</option>
                         @endforeach
                     </x-select>
-                    <x-select name="type_kelas" label="Type Kelas">
-                        <option value="">Select Type Kelas</option>
-                        <option value="Reguler">Reguler</option>
-                        <option value="Karyawan">Karyawan</option>
-                    </x-select>
+                    <x-text-field type="date" name="tgl_masuk" label="Tanggal Masuk" />
+                    <x-text-field type="date" name="tgl_yudisium" label="Tanggal Yudisium" />
+                    <x-text-field type="text" name="lama_kuliah" label="Lama Kuliah" readonly />
                     <x-select name="jenis_kelamin" label="Jenis Kelamin">
                         <option value="">Select Jenis Kelamin</option>
                         <option value="L">Laki-Laki</option>

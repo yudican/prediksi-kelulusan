@@ -14,7 +14,7 @@ class DataMahasiswa extends Model
 
     //public $incrementing = false;
 
-    protected $fillable = ['nama', 'nim', 'angkatan', 'jenjang', 'data_prodi_id', 'type_kelas', 'jenis_kelamin', 'agama', 'status', 'ipk', 'sks', 'penghasilan'];
+    protected $fillable = ['nama', 'nim', 'angkatan', 'tgl_masuk', 'tgl_yudisium', 'data_prodi_id', 'lama_kuliah', 'jenis_kelamin', 'agama', 'status', 'ipk', 'sks', 'penghasilan'];
 
     protected $dates = [];
 

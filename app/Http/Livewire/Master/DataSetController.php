@@ -15,7 +15,7 @@ class DataSetController extends Component
     public $nama_prodi;
     public $tgl_masuk;
     public $tgl_yudisium;
-    public $lama_kuliah;
+    public $lama_kuliah = 0;
     public $status;
     public $ipk;
     public $sks;
@@ -170,7 +170,7 @@ class DataSetController extends Component
         $this->angkatan = null;
         $this->tgl_masuk = null;
         $this->tgl_yudisium = null;
-        $this->lama_kuliah = null;
+        $this->lama_kuliah = 0;
         $this->nama_prodi = null;
         $this->status = null;
         $this->ipk = null;

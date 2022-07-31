@@ -18,9 +18,10 @@ class CreateDataMahasiswasTable extends Migration
             $table->string('nama');
             $table->string('nim');
             $table->string('angkatan');
-            $table->string('jenjang');
+            $table->date('tgl_masuk');
+            $table->date('tgl_yudisium')->nullable()->default(now());
+            $table->integer('lama_kuliah')->nullable()->default(0);
             $table->foreignId('data_prodi_id');
-            $table->string('type_kelas');
             $table->string('jenis_kelamin');
             $table->string('agama');
             $table->string('status');
