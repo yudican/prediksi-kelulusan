@@ -233,4 +233,11 @@ class DataMahasiswaController extends Component
         $this->update_mode = false;
         $this->modal = false;
     }
+
+    // calculate year difference between two dates
+    public function year_diff($date1, $date2)
+    {
+        $diff = abs(strtotime($date2) - strtotime($date1));
+        return floor($diff / (365 * 60 * 60 * 24));
+    }
 }
