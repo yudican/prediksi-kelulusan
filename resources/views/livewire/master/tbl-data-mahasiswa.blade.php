@@ -62,6 +62,7 @@
                         <option value="Tidak Aktif">Tidak Aktif</option>
                         <option value="Cuti">Cuti</option>
                         <option value="Revisi">Revisi</option>
+                        <option value="Lulus">Lulus</option>
                     </x-select>
                     <x-text-field type="text" name="ipk" label="Ipk" />
                     <x-text-field type="number" name="sks" label="Sks" />
