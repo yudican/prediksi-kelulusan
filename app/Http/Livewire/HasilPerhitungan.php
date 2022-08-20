@@ -10,7 +10,6 @@ use App\Models\DataProdi;
 use App\Models\DataSet;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
-use Phpml\Classification\NaiveBayes as ClassificationNaiveBayes;
 
 class HasilPerhitungan extends Component
 {
@@ -69,6 +68,7 @@ class HasilPerhitungan extends Component
         $clasification->train($newSample, $newLable);
 
         $total = [];
+        $labels = [];
         foreach ($data_mahasiswa as $key => $value) {
             $result = $clasification->predict([
                 $value->angkatan,
@@ -107,9 +107,10 @@ class HasilPerhitungan extends Component
                 ]),
                 'result' => $result
             ];
-
             $datas[$value->nim] = [$result];
         }
+
+
         $this->datas = $datas;
         return view('livewire.hasil-perhitungan', [
             'data' => $members,

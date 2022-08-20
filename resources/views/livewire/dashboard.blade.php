@@ -17,6 +17,19 @@
                 </div>
             </div>
         </div>
+        @foreach ($prodis as $prodi)
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-header-title">{{$prodi->nama_prodi}}</h4>
+                </div>
+                <div class="card-body">
+                    <div id="prodi-chart-{{$prodi->id}}" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
     </div>
 
     @push('scripts')
@@ -28,8 +41,42 @@
                 const chart = new Chartisan({
                     el: '#chart',
                     url: "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}",
+                    // hooks: new ChartisanHooks()
+                    // .colors(['#4299E1','#FE0045','#C07EF1','#67C560','#ECC94B'])
+                    //     .datasets('bar')
+                    //     .axis(true)
                 });
             });
     </script>
+    @foreach ($prodis as $prodi)
+    <script>
+        document.addEventListener('livewire:load', function(e) {
+                const chart = new Chartisan({
+                    el: '#prodi-chart-{{$prodi->id}}',
+                    url: "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?prodi_id={{$prodi->id}}",
+                    hooks: new ChartisanHooks()
+                    .colors(['#4299E1','#FE0045','#C07EF1','#67C560','#ECC94B'])
+                        .datasets('pie')
+                        .axis(false)
+                        .custom(function({ data, merge }) {
+                            console.log(data)
+                            return merge(data, {
+                                options: {
+                                    plugins: {
+                                        datalabels: {
+                                            color: '#ff0a6c',
+                                            formatter: function(value, context) {
+                                                return (value != '' && value !== undefined) ? Math.round(value * 100) / 100 : value;
+                                            },
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                });
+            });
+    </script>
+    @endforeach
+
     @endpush
 </div>
