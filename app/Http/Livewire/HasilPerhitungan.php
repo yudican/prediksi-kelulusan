@@ -17,6 +17,24 @@ class HasilPerhitungan extends Component
     public $datas = [];
     public function render()
     {
+        $data = $this->changeData($this->prodi_id);
+        $this->datas = $data['data'];
+        return view('livewire.hasil-perhitungan', [
+            'data' => $data['members'],
+            'labels' => $data['labels'],
+            'data_prodi' => DataProdi::all(),
+            'role' => $data['role'],
+            'dataChart' => $data['dataChart'],
+        ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new HasilperhitunganExport($this->datas), 'hasil-perhitungan.xlsx');
+    }
+
+    public function changeData($prodi_id = null)
+    {
         $samples = [];
         $datas = [];
         $members = [];
@@ -24,9 +42,9 @@ class HasilPerhitungan extends Component
         $newLable = [];
         $newSample = [];
         $data_mahasiswa = DataMahasiswa::all();
-        $this->emit('changeData', $this->prodi_id);
-        if ($this->prodi_id) {
-            $data_mahasiswa = DataMahasiswa::where('data_prodi_id', $this->prodi_id)->get();
+        $this->emit('changeData', $prodi_id);
+        if ($prodi_id) {
+            $data_mahasiswa = DataMahasiswa::where('data_prodi_id', $prodi_id)->get();
         }
         $data_set = DataSet::all();
 
@@ -68,7 +86,7 @@ class HasilPerhitungan extends Component
         $clasification->train($newSample, $newLable);
 
         $total = [];
-        $labels = [];
+        $chartLabels = [];
         foreach ($data_mahasiswa as $key => $value) {
             $result = $clasification->predict([
                 $value->angkatan,
@@ -108,20 +126,50 @@ class HasilPerhitungan extends Component
                 'result' => $result
             ];
             $datas[$value->nim] = [$result];
+            $chartLabels[$value->dataProdi->id][] = [
+                'prodi' => $value->dataProdi->nama_prodi,
+                'result' => $result
+            ];
         }
 
+        $final_data = [];
+        $final_label = [];
+        $final_data_fix = [];
+        foreach ($chartLabels as $key => $label) {
+            $final_label[$key] = $label[$key]['prodi'];
+            foreach ($label as $index => $value) {
+                $final_data[$key][$value['result']][] = $value['result'];
+            }
+        }
 
-        $this->datas = $datas;
-        return view('livewire.hasil-perhitungan', [
-            'data' => $members,
-            'labels' => $labels,
-            'data_prodi' => DataProdi::all(),
-            'role' => $role
+        foreach ($final_data as $key => $value_fix) {
+            foreach ($value_fix as $index2 => $value) {
+                $final_data_fix[$key][$index2] = count($value);
+            }
+        }
+
+        $merged = array();
+        foreach ($final_data_fix as $a) {                             // iterate both arrays
+            foreach ($a as $key => $value) {                     // iterate all keys+values
+                $merged[$key] = $value + ($merged[$key] ?? 0);   // merge and add
+            }
+        }
+
+        $chart = $prodi_id ? $final_data_fix[$prodi_id] : $merged;
+        $dataChart = [
+            'labels' => array_keys($chart),
+            'value_charts' => array_values($chart),
+        ];
+        $this->emit('changeData', [
+            'dataChart' => $dataChart,
+            'prodi_id' => $prodi_id,
         ]);
-    }
-
-    public function export()
-    {
-        return Excel::download(new HasilperhitunganExport($this->datas), 'hasil-perhitungan.xlsx');
+        return [
+            'members' => $members,
+            'labels' => $labels,
+            'role' => $role,
+            'dataChart' => $dataChart,
+            'data' => $datas,
+        ];
     }
 }

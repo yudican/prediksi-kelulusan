@@ -16,12 +16,12 @@
             <div class="card">
                 <div class="card-body row">
                     <div class="col-md-10">
-                        <x-select name="prodi_id">
+                        <select wire:model="prodi_id" class="form-control">
                             <option value="">Semua Prodi</option>
                             @foreach ($data_prodi as $prodi)
                             <option value="{{$prodi->id}}">{{$prodi->nama_prodi}}</option>
                             @endforeach
-                        </x-select>
+                        </select>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-success mt-2" wire:click="export">Export</button>
@@ -42,7 +42,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <div id="prodi-chart" style="height: 300px;"></div>
+                    <canvas id="prodi-chart" style="height: 300px;"></canvas>
                 </div>
             </div>
         </div>
@@ -80,49 +80,68 @@
 
     @push('scripts')
     <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+    <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>
     <!-- Chartisan -->
     <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
     <script>
         document.addEventListener('livewire:load', function(e) {
-            function loadChart(prodi_id='all') {
-                const chart = new Chartisan({
-                    el: '#prodi-chart',
-                    url: `https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?prodi_id=${prodi_id}`,
-                    hooks: new ChartisanHooks()
-                    .colors(['#4299E1','#FE0045','#C07EF1','#67C560','#ECC94B'])
-                        .datasets('pie')
-                        .axis(false)
-                        .custom(function({ data, merge }) {
-                            return merge(data, {
-                                options: {
-                                    plugins: {
-                                        datalabels: {
-                                            color: '#ff0a6c',
-                                            formatter: function(value, context) {
-                                                return (value != '' && value !== undefined) ? Math.round(value * 100) / 100 : value;
-                                            },
-                                        }
-                                    }
-                                }
-                            })
-                        })
-                });
+            function loadChart(dataChart) {
+                console.log(dataChart,'dataChart')
+                var pieChart = document.getElementById('prodi-chart').getContext('2d')
+                var myPieChart = new Chart(pieChart, {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: dataChart.value_charts,
+                            backgroundColor :["#1d7af3","#f3545d","#fdaf4b",'#4299e1','#FE0045','#C07EF1','#67C560','#ECC94B'],
+                            borderWidth: 0
+                        }],
+                        labels: dataChart.labels 
+                    },
+                    options : {
+                        responsive: true, 
+                        maintainAspectRatio: false,
+                        legend: {
+                            position : 'bottom',
+                            labels : {
+                                fontColor: 'rgb(154, 154, 154)',
+                                fontSize: 11,
+                                usePointStyle : true,
+                                padding: 20
+                            }
+                        },
+                        pieceLabel: {
+                            render: 'percentage',
+                            fontColor: 'white',
+                            fontSize: 14,
+                        },
+                        tooltips: false,
+                        layout: {
+                            padding: {
+                                left: 20,
+                                right: 20,
+                                top: 20,
+                                bottom: 20
+                            }
+                        }
+                    }
+                })
             }
-
-            loadChart();
+            const dataChart = @json($dataChart);
+            loadChart(dataChart);
 
             const chart = new Chartisan({
                 el: '#chart',
                 url: "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}",
             });
 
-            window.livewire.on('changeData', (data) => {
-                const url = data ? "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}&prodi_id="+data :"https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}"
-                const chart = new Chartisan({
+            window.livewire.on('changeData', async (data) =>  {
+                await loadChart(data.dataChart);
+                const url = await data.prodi_id ? "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}&prodi_id="+data.prodi_id :"https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}"
+                const chart = await new Chartisan({
                     el: '#chart',
                     url,
                 });
-                loadChart(data);
             });
         });
     </script>

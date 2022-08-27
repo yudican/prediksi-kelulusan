@@ -142,7 +142,7 @@ class SampleChart extends BaseChart
                 'result' => $result
             ];
             $datas[$value->nim] = [$result];
-            $labels[$value->dataProdi->id][] = [
+            $chartLabels[$value->dataProdi->id][] = [
                 'prodi' => $value->dataProdi->nama_prodi,
                 'result' => $result
             ];
@@ -151,7 +151,7 @@ class SampleChart extends BaseChart
         $final_data = [];
         $final_label = [];
         $final_data_fix = [];
-        foreach ($labels as $key => $label) {
+        foreach ($chartLabels as $key => $label) {
             $final_label[$key] = $label[$key]['prodi'];
             foreach ($label as $index => $value) {
                 $final_data[$key][$value['result']][] = $value['result'];
@@ -162,6 +162,21 @@ class SampleChart extends BaseChart
             foreach ($value_fix as $index2 => $value) {
                 $final_data_fix[$key][$index2] = count($value);
             }
+        }
+
+        $merged = array();
+        foreach ($final_data_fix as $a) {                             // iterate both arrays
+            foreach ($a as $key => $value) {                     // iterate all keys+values
+                $merged[$key] = $value + ($merged[$key] ?? 0);   // merge and add
+            }
+        }
+
+        if ($request->prodi_id == 'all') {
+            return Chartisan::build()
+                ->labels(array_keys($merged))
+                // ->dataset('Angkatan', array_values($angkatans));
+                ->dataset('Sample', array_values($merged))
+                ->extra(array_values($merged));
         }
 
         return Chartisan::build()
