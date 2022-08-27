@@ -26,6 +26,9 @@ class ProdiChart extends BaseChart
     $newLable = [];
     $newSample = [];
     $data_mahasiswa = DataMahasiswa::where('data_prodi_id', $request->prodi_id)->get();
+    if ($request->prodi_id == 'all') {
+      $data_mahasiswa = DataMahasiswa::all();
+    }
     $data_set = DataSet::all();
 
 
