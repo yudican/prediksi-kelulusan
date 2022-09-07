@@ -143,7 +143,7 @@
                         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                         datasets : [{
                             label: "Sales",
-                            backgroundColor: 'rgb(23, 125, 255)',
+                            backgroundColor :["#1d7af3","#f3545d","#fdaf4b",'#4299e1','#FE0045','#C07EF1','#67C560','#ECC94B'],
                             borderColor: 'rgb(23, 125, 255)',
                             data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
                         }],

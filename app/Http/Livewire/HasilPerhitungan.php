@@ -132,6 +132,22 @@ class HasilPerhitungan extends Component
             ];
         }
 
+        $labelValue = [];
+        $angkatans = [];
+
+        $total = [];
+        foreach ($data_mahasiswa as $key => $value) {
+            $keyData = $value->dataProdi->id . '-' . $value->angkatan;
+            $labelValue[$keyData] = $value->dataProdi->nama_prodi . '_' . $keyData;
+            $angkatans[$keyData] = $value->angkatan;
+            if (isset($total[$keyData])) {
+                $total[$keyData] = $total[$keyData] + 1;
+            } else {
+                $total[$keyData] = 1;
+            }
+        }
+        dd($labelValue, $angkatans, $total);
+
         $final_data = [];
         $final_label = [];
         $final_data_fix = [];
