@@ -137,9 +137,8 @@
             function loadChartBar(dataChartBar=[]) {
                 console.log(dataChartBar,'dataChartBar')
                 var barChart = document.getElementById('mhs-chart').getContext('2d')
-                const labels = Utils.months({count: 7});
                 const datac = {
-                labels: labels,
+                labels: ['label1', 'label2', 'label3', 'label4', 'label5', 'label6', 'label7'],
                 datasets: [{
                     label: 'My First Dataset',
                     data: [65, 59, 80, 81, 56, 55, 40],
