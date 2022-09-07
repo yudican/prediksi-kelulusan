@@ -137,7 +137,7 @@ class HasilPerhitungan extends Component
 
         $total = [];
         foreach ($data_mahasiswa as $key => $value) {
-            $keyData = $value->dataProdi->id . '-' . $value->angkatan;
+            $keyData = $value->dataProdi->nama_prodi . '-' . $value->angkatan;
             $labelValue[$keyData] = $value->dataProdi->nama_prodi . '_' . $keyData;
             $angkatans[$keyData] = $value->angkatan;
             if (isset($total[$keyData])) {
