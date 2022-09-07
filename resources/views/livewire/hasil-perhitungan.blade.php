@@ -35,10 +35,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="header-title">JumlaH Data Mahasiswa</h1>
+                    <h1 class="header-title">Jumlah Data Mahasiswa</h1>
                 </div>
                 <div class="card-body">
-                    <div id="chart" style="height: 300px;"></div>
+                    {{-- <div id="chart" style="height: 300px;"></div> --}}
+                    <canvas id="mhs-chart" style="height: 300px;"></canvas>
                 </div>
             </div>
         </div>
@@ -133,8 +134,41 @@
                     }
                 })
             }
+            function loadChartBar(dataChartBar=[]) {
+                console.log(dataChartBar,'dataChartBar')
+                var barChart = document.getElementById('mhs-chart').getContext('2d')
+                const labels = Utils.months({count: 7});
+                const datac = {
+                labels: labels,
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1
+                }]
+                };
+                var myBarChart = new Chart(barChart, datac)
+            }
             const dataChart = @json($dataChart);
             loadChart(dataChart);
+            loadChartBar(dataChart);
 
             const chart = new Chartisan({
                 el: '#chart',
@@ -147,6 +181,7 @@
                 const chart = await new Chartisan({
                     el: '#chart',
                     url,
+
                 });
             });
         });
