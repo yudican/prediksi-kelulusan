@@ -146,7 +146,7 @@ class HasilPerhitungan extends Component
                 $total[$keyData] = 1;
             }
         }
-        dd($labelValue, $angkatans, $total);
+
 
         $final_data = [];
         $final_label = [];
@@ -175,6 +175,8 @@ class HasilPerhitungan extends Component
         $dataChart = [
             'labels' => array_keys($chart),
             'value_charts' => array_values($chart),
+            'barLabels' => array_keys($total),
+            'barValues' => array_values($total),
         ];
         $this->emit('changeData', [
             'dataChart' => $dataChart,

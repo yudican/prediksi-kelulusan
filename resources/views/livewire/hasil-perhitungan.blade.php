@@ -134,18 +134,17 @@
                     }
                 })
             }
-            function loadChartBar(dataChartBar=[]) {
-                console.log(dataChartBar,'dataChartBar')
+            function loadChartBar(dataChartBar) {
                 var barChart = document.getElementById('mhs-chart').getContext('2d')
                 var myBarChart = new Chart(barChart, {
                     type: 'bar',
                     data: {
-                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        labels: dataChartBar.barLabels,
                         datasets : [{
-                            label: "Sales",
+                            label: "Jumlah Data Mahasiswa",
                             backgroundColor :["#1d7af3","#f3545d","#fdaf4b",'#4299e1','#FE0045','#C07EF1','#67C560','#ECC94B'],
                             borderColor: 'rgb(23, 125, 255)',
-                            data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
+                            data: dataChartBar.barValues,
                         }],
                     },
                     options: {
@@ -172,12 +171,13 @@
 
             window.livewire.on('changeData', async (data) =>  {
                 await loadChart(data.dataChart);
-                const url = await data.prodi_id ? "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}&prodi_id="+data.prodi_id :"https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}"
-                const chart = await new Chartisan({
-                    el: '#chart',
-                    url,
+                await loadChartBar(data.dataChart);
+                // const url = await data.prodi_id ? "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}&prodi_id="+data.prodi_id :"https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}"
+                // const chart = await new Chartisan({
+                //     el: '#chart',
+                //     url,
 
-                });
+                // });
             });
         });
     </script>
