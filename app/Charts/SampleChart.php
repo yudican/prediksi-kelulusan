@@ -171,11 +171,26 @@ class SampleChart extends BaseChart
             }
         }
 
+        $fillColors = [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(22,160,133, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(51,105,232, 0.2)",
+            "rgba(244,67,54, 0.2)",
+            "rgba(34,198,246, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(233,30,99, 0.2)",
+            "rgba(205,220,57, 0.2)"
+
+        ];
+
         if ($request->prodi_id == 'all') {
             return Chartisan::build()
                 ->labels(array_keys($merged))
                 // ->dataset('Angkatan', array_values($angkatans));
                 ->dataset('Sample', array_values($merged))
+                ->backgroundcolor($fillColors)
                 ->extra(array_values($merged));
         }
 
@@ -183,6 +198,7 @@ class SampleChart extends BaseChart
             ->labels(array_keys($final_data_fix[$request->prodi_id]))
             // ->dataset('Angkatan', array_values($angkatans));
             ->dataset('Sample', array_values($final_data_fix[$request->prodi_id]))
+            ->backgroundcolor($fillColors)
             ->extra(array_values($final_data_fix[$request->prodi_id]));
     }
 }

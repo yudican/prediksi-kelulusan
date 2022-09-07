@@ -34,6 +34,9 @@
 
         <div class="col-md-8">
             <div class="card">
+                <div class="card-header">
+                    <h1 class="header-title">JumlaH Data Mahasiswa</h1>
+                </div>
                 <div class="card-body">
                     <div id="chart" style="height: 300px;"></div>
                 </div>
@@ -41,6 +44,9 @@
         </div>
         <div class="col-md-4">
             <div class="card">
+                <div class="card-header">
+                    <h1 class="header-title">Persentase Kelulusan</h1>
+                </div>
                 <div class="card-body">
                     <canvas id="prodi-chart" style="height: 300px;"></canvas>
                 </div>

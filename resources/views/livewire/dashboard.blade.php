@@ -12,6 +12,9 @@
 
         <div class="col-md-12">
             <div class="card">
+                <div class="card-header">
+                    <h1 class="header-title">JumlaH Data Mahasiswa</h1>
+                </div>
                 <div class="card-body">
                     <div id="chart" style="height: 300px;"></div>
                 </div>
