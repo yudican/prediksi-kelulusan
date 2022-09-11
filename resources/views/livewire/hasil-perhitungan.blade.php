@@ -89,7 +89,7 @@
     <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
     <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>
     <!-- Chartisan -->
-    <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
+    {{-- <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script> --}}
     <script>
         document.addEventListener('livewire:load', function(e) {
             function loadChart(dataChart) {
@@ -164,10 +164,10 @@
             loadChart(dataChart);
             loadChartBar(dataChart);
 
-            const chart = new Chartisan({
-                el: '#chart',
-                url: "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}",
-            });
+            // const chart = new Chartisan({
+            //     el: '#chart',
+            //     url: "https://prediksi-kelulusan.stagging.my.id/api/chart/sample_chart?user_id={{Auth::user()->id}}",
+            // });
 
             window.livewire.on('changeData', async (data) =>  {
                 await loadChart(data.dataChart);
