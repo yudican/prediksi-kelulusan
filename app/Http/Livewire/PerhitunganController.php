@@ -11,8 +11,8 @@ use Phpml\Classification\NaiveBayes as ClassificationNaiveBayes;
 
 class PerhitunganController extends Component
 {
-    public $prodi_id;
-    public $angkatan;
+    public $prodi_id = 0;
+    public $angkatan = 0;
     public function mount()
     {
         if (auth()->user()->role->role_type == 'member') {
@@ -28,9 +28,31 @@ class PerhitunganController extends Component
         $labels = ['Angkatan', 'Tanggal Masuk', 'Tanggal Yudisium', 'Lama Kuliah', 'Prodi', 'Status', 'IPK', 'SKS'];
         $newLable = [];
         $newSample = [];
-        $data_mahasiswa = DataMahasiswa::all();
-        if ($this->prodi_id || $this->angkatan) {
-            $data_mahasiswa = DataMahasiswa::where('data_prodi_id', $this->prodi_id)->orWhere('angkatan', $this->angkatan)->get();
+        $data_mahasiswa = null;
+        $data = DataMahasiswa::query();
+        if ($this->prodi_id) {
+            if ($this->prodi_id > 0) {
+                $data->where('data_prodi_id', $this->prodi_id);
+            }
+            $data_mahasiswa = $data->get();
+        }
+        if ($this->angkatan) {
+            if ($this->angkatan > 0) {
+                $data->where('angkatan', $this->angkatan);
+            }
+            $data_mahasiswa = $data->get();
+        }
+        if ($this->prodi_id && $this->angkatan) {
+            if ($this->prodi_id > 0) {
+                $data->where('data_prodi_id', $this->prodi_id);
+            }
+
+            if ($this->angkatan > 0) {
+                $data->where('angkatan', $this->angkatan);
+            }
+            $data_mahasiswa = $data->get();
+        } else {
+            $data_mahasiswa = $data->get();
         }
         $data_set = DataSet::all();
 

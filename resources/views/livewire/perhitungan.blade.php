@@ -17,7 +17,7 @@
                 <div class="card-body row">
                     <div class="col-md-6">
                         <x-select name="prodi_id" label="Pilih Prodi">
-                            <option value="">Semua Prodi</option>
+                            <option value="0">Semua Prodi</option>
                             @foreach ($data_prodi as $prodi)
                             <option value="{{$prodi->id}}">{{$prodi->nama_prodi}}</option>
                             @endforeach
@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-6">
                         <x-select name="angkatan" label="Pilih Angkatan">
-                            <option value="">Semua Angkatan</option>
+                            <option value="0">Semua Angkatan</option>
                             @for ($i = 2015; $i <= 2022; $i++) <option value="{{$i}}">{{$i}}</option>
                                 @endfor
                         </x-select>
