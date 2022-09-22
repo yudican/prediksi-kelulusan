@@ -136,14 +136,30 @@ class HasilPerhitungan extends Component
         $angkatans = [];
 
         $total = [];
+        $charts = [];
+        $newCharts = [];
         foreach ($data_mahasiswa as $key => $value) {
-            $keyData = $value->dataProdi->nama_prodi . '-' . 2015;
+            $keyData = $value->dataProdi->nama_prodi . '-' . $value->angkatan;
             $labelValue[$keyData] = $value->dataProdi->nama_prodi . '_' . $keyData;
-            $angkatans[$keyData] = 2015;
+            $angkatans[$keyData] = $value->angkatan;
+            $charts[$value->dataProdi->nama_prodi] = $angkatans;
+
             if (isset($total[$keyData])) {
                 $total[$keyData] = $total[$keyData] + 1;
             } else {
                 $total[$keyData] = 1;
+            }
+        }
+
+        $angkatan = [];
+        foreach ($charts as $key => $chart) {
+            foreach ($chart as $index => $value) {
+                $angkatan[$value] = $value;
+                if (isset($newCharts[$key])) {
+                    $newCharts[$key][$value] = $total[$index];
+                } else {
+                    $newCharts[$key] = [$value => $total[$index]];
+                }
             }
         }
 
@@ -175,8 +191,9 @@ class HasilPerhitungan extends Component
         $dataChart = [
             'labels' => array_keys($chart),
             'value_charts' => array_values($chart),
-            'barLabels' => array_keys($total),
-            'barValues' => array_values($total),
+            'barLabels' => array_keys($newCharts),
+            'barValues' => array_values($newCharts),
+            'barAngkatan' => array_values($angkatan),
         ];
         $this->emit('changeData', [
             'dataChart' => $dataChart,
