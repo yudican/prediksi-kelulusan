@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use ConsoleTVs\Charts\Registrar as Charts;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Charts $charts)
+    public function boot()
     {
         if (Schema::hasTable('teams')) {
             $team = optional(Team::find(1));
@@ -37,9 +36,5 @@ class AppServiceProvider extends ServiceProvider
             Carbon::setLocale('id');
             date_default_timezone_set('Asia/Jakarta');
         }
-
-        $charts->register([
-            \App\Charts\SampleChart::class
-        ]);
     }
 }

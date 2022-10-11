@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "consoletvs/charts": "^7.3",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -32,7 +31,7 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
-        "exclude-from-classmap":[
+        "exclude-from-classmap": [
             "vendor/livewire/livewire/src/Controllers/FilePreviewHandler.php",
             "vendor/livewire/livewire/src/Controllers/FileUploadHandler.php"
         ],
